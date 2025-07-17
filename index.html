@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="meta_title">服务状态公告</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入字体: Inter (英文/数字) 和 霞鹜文楷 (中文) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
+    
+    <style>
+        /* --- 全局样式定义 --- */
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', 'LXGW WenKai Screen', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            transition: background-color 0.5s ease;
+        }
+        
+        /* --- 动态网格背景 --- */
+        .grid-bg {
+            background-color: #f9fafb; /* 亮色背景 */
+            background-image: linear-gradient(rgba(128, 128, 128, 0.2) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(128, 128, 128, 0.2) 1px, transparent 1px);
+            background-size: 2rem 2rem;
+            transition: background-color 0.5s ease;
+        }
+        .dark .grid-bg {
+            background-color: #0c0a09; /* 暗色背景 */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+        }
+
+        /* --- 内容卡片样式 --- */
+        .card {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .dark .card {
+            background-color: rgba(28, 25, 23, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- 动画 --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 1s ease-out forwards; }
+    </style>
+</head>
+
+<body class="text-gray-800 dark:text-gray-200">
+
+    <!-- 主容器 -->
+    <div class="grid-bg min-h-screen w-full flex items-center justify-center p-4">
+        
+        <!-- 主内容卡片 -->
+        <div class="card w-full max-w-2xl rounded-2xl shadow-xl p-8 md:p-10 animate-fade-in">
+            
+            <header class="text-center mb-8">
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white" data-lang-key="main_title">服务状态公告</h1>
+                <p class="mt-2 text-gray-500 dark:text-gray-400" data-lang-key="subtitle">一个关于未来的简短说明</p>
+            </header>
+            
+            <main class="space-y-6">
+                <!-- 核心信息 -->
+                <div class="text-center text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                    <p data-lang-key="greeting">你好，朋友！作为一名<strong>2025届</strong>中考生，我已顺利升入<strong>金州高级中学</strong>。面对远超以往的学业压力，我将全身心投入学习，个人项目状态更新如下：</p>
+                </div>
+
+                <!-- 服务状态分区 -->
+                <div class="space-y-4 pt-4">
+                    <div class="flex items-start space-x-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800/50 p-4 rounded-lg">
+                        <svg class="h-6 w-6 text-green-500 flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <div>
+                            <h3 class="font-bold text-lg text-green-800 dark:text-green-200" data-lang-key="online_title">持续在线</h3>
+                            <p class="text-green-700 dark:text-green-300" data-lang-key="online_desc"><strong>GitHub 加速</strong>服务将通过 <strong>Cloudflare Workers</strong> 实现并继续提供，感谢你的使用。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800/50 p-4 rounded-lg">
+                        <svg class="h-6 w-6 text-amber-500 flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                        <div>
+                            <h3 class="font-bold text-lg text-amber-800 dark:text-amber-200" data-lang-key="dormant_title">暂时休眠</h3>
+                            <p class="text-amber-700 dark:text-amber-300" data-lang-key="dormant_desc">个人博客、图床及其他项目将暂停访问，期待未来再会。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 bg-sky-50 dark:bg-sky-900/30 border border-sky-200 dark:border-sky-800/50 p-4 rounded-lg">
+                        <svg class="h-6 w-6 text-sky-500 flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v1.5M12 9.75v6.5M12 21.75c-5.385 0-9.75-4.365-9.75-9.75S6.615 2.25 12 2.25s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z" /></svg>
+                        <div>
+                            <h3 class="font-bold text-lg text-sky-800 dark:text-sky-200" data-lang-key="future_title">未来计划</h3>
+                            <p class="text-sky-700 dark:text-sky-300" data-lang-key="future_desc"><strong>Docker 加速</strong>已加入愿望清单，待时机成熟后，或将重启。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 随机语录功能区 -->
+                <div class="pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4" data-lang-key="quote_title">来自未来的勉励</h3>
+                    <blockquote id="quote-output" class="min-h-[3rem] text-indigo-800 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 p-4 rounded-lg italic">...</blockquote>
+                    <button id="quote-button" class="mt-4 px-5 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 transition-colors" data-lang-key="quote_button">换一句</button>
+                </div>
+            </main>
+
+            <footer class="text-center mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                <p class="text-sm text-gray-500 dark:text-gray-400" data-lang-key="footer_text">青山不改，绿水长流。如有要事，请联系：</p>
+                <a href="mailto:327527865@qq.com" class="font-semibold text-indigo-500 hover:underline">
+                    327527865@qq.com
+                </a>
+            </footer>
+        </div>
+
+        <!-- 控制器 -->
+        <div class="fixed bottom-5 right-5 flex space-x-2">
+            <button id="lang-switcher" title="Switch Language" class="h-12 w-12 flex items-center justify-center card rounded-full shadow-lg hover:scale-110 active:scale-95 transition-transform duration-200 font-semibold text-gray-800 dark:text-gray-200"></button>
+            <button id="theme-switcher" title="Switch Theme" class="h-12 w-12 flex items-center justify-center card rounded-full shadow-lg hover:scale-110 active:scale-95 transition-transform duration-200">
+                 <svg id="theme-icon-light" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                 <svg id="theme-icon-dark" class="h-6 w-6 text-gray-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 数据定义 ---
+            const langData = {
+                zh: {
+                    meta_title: "服务状态公告", main_title: "服务状态公告", subtitle: "一个关于未来的简短说明",
+                    greeting: "你好，朋友！作为一名<strong>2025届</strong>中考生，我已顺利升入<strong>金州高级中学</strong>。面对远超以往的学业压力，我将全身心投入学习，个人项目状态更新如下：",
+                    online_title: "持续在线", online_desc: "<strong>GitHub 加速</strong>服务将通过 <strong>Cloudflare Workers</strong> 实现并继续提供，感谢你的使用。",
+                    dormant_title: "暂时休眠", dormant_desc: "个人博客、图床及其他项目将暂停访问，期待未来再会。",
+                    future_title: "未来计划", future_desc: "<strong>Docker 加速</strong>已加入愿望清单，待时机成熟后，或将重启。",
+                    quote_title: "来自未来的勉励", quote_button: "换一句",
+                    footer_text: "青山不改，绿水长流。如有要事，请联系：", lang_switcher_text: "EN"
+                },
+                en: {
+                    meta_title: "Service Status Announcement", main_title: "Service Status Announcement", subtitle: "A brief note about the future",
+                    greeting: "Hello, friends! As a member of the <strong>Class of 2025</strong>, I have been admitted to <strong>Jinzhou Senior High School</strong>. Facing unprecedented academic pressure, I will be dedicating myself to my studies. Here is an update on my personal projects:",
+                    online_title: "Remains Online", online_desc: "The <strong>GitHub Acceleration</strong> service, powered by <strong>Cloudflare Workers</strong>, will continue to be available. Thank you for using it.",
+                    dormant_title: "Temporarily Dormant", dormant_desc: "My personal blog, image hosting, and other projects will be suspended. Hope to see you again in the future.",
+                    future_title: "Future Plans", future_desc: "<strong>Docker Acceleration</strong> has been added to the wishlist and may be revived when time permits.",
+                    quote_title: "A Message From The Future", quote_button: "Another One",
+                    footer_text: "The journey continues. For important matters, please contact:", lang_switcher_text: "中"
+                }
+            };
+
+            const quotes = [
+                { zh: "坐标锁定：未来。你现在的每一次专注，都在为更高维度的代码库贡献提交。", en: "Coordinates locked: The Future. Every moment of focus now is a commit to a higher-dimensional codebase." },
+                { zh: "知识正在编译，耐心等待。未来的你，感谢现在全力以赴的自己。", en: "Knowledge is compiling, please wait. Your future self thanks you for the dedication today." },
+                { zh: "暂停不是停止，是为下一次启动加载更强劲的内核。", en: "A pause isn't a stop; it's loading a more powerful kernel for the next boot-up." },
+                { zh: "每一次埋首于书本，都是在为未来的技术梦想积蓄能量。", en: "Every time you bury your head in a book, you're accumulating energy for future tech dreams." },
+                { zh: "算法的优雅，源于逻辑的严谨。学业的精进，亦是同理。", en: "The elegance of an algorithm comes from rigorous logic. The same applies to academic progress." },
+                { zh: "暂时离开IDE，是为了在更广阔的世界里寻找下一个伟大项目的灵感。", en: "Leaving the IDE for a while is to find inspiration for the next great project in a wider world." },
+                { zh: "数据结构支撑着程序，而基础知识支撑着你的未来。", en: "Data structures support programs, and fundamental knowledge supports your future." },
+                { zh: "别担心，你的技术栈只是暂时存档，读档时会更加强大。", en: "Don't worry, your tech stack is just temporarily archived. It will be even stronger when you load it again." },
+                { zh: "人生的堆栈里，每一次push都是为了更高处的pop。", en: "In the stack of life, every push is for a higher pop." },
+                { zh: "将思维超频，投入到新的挑战里，你会解锁新的成就。", en: "Overclock your thinking for new challenges, and you will unlock new achievements." },
+                { zh: "物理定律和代码规则一样，理解它们，你就能创造奇迹。", en: "The laws of physics are like coding rules. Understand them, and you can create miracles." },
+                { zh: "化学反应的奇妙，不亚于一行代码改变世界。", en: "The magic of a chemical reaction is no less than a line of code changing the world." },
+                { zh: "生物的演化，是地球最精妙的迭代开发。", en: "The evolution of life is the Earth's most sophisticated iterative development." },
+                { zh: "每一次解开数学难题，都是一次思维的“极限编程”。", en: "Every time you solve a difficult math problem, it's a 'pair programming' for your mind." },
+                { zh: "现在你学的每一课，都是未来你改变世界的API文档。", en: "Every lesson you learn now is the API documentation for you to change the world in the future." },
+                { zh: "暂时关闭端口，是为了防止不必要的干扰，专注核心进程。", en: "Temporarily closing ports is to prevent unnecessary interruptions and focus on core processes." },
+                { zh: "你的大脑正在进行一次底层重构，未来的性能将超乎想象。", en: "Your brain is undergoing a low-level refactoring. Future performance will be beyond imagination." },
+                { zh: "别忘了，最优秀的代码，也需要最稳定的硬件来运行。保重身体。", en: "Remember, even the best code needs the most stable hardware to run. Take care of yourself." },
+                { zh: "高中的“Hello, World!”，是通往更广阔宇宙的起点。", en: "The 'Hello, World!' of high school is the starting point to a wider universe." },
+                { zh: "每一次考试，都是对你当前“版本”的一次压力测试。", en: "Every exam is a stress test for your current 'version'." },
+                { zh: "技术的热情是火种，学业的精进是燃料，未来可期。", en: "Passion for technology is the kindling, academic excellence is the fuel. The future is promising." },
+                { zh: "你不是在放弃爱好，你是在为你的爱好打造一个更坚实的平台。", en: "You are not giving up your hobby; you are building a more solid platform for it." },
+                { zh: "那些深夜里的代码，将化为笔下的星光，照亮你的试卷。", en: "The code from late nights will turn into starlight on your pen, illuminating your exam papers." },
+                { zh: "系统升级中，请勿断电。未来的你，需要这次完整的更新。", en: "System upgrade in progress, do not power off. Your future self needs this complete update." },
+                { zh: "从命令行到方程式，你只是切换了一个同样迷人的问题解决界面。", en: "From command line to equations, you've just switched to an equally fascinating problem-solving interface." },
+                { zh: "未来的你发来消息：感谢你现在的专注，让我们的起点更高。", en: "A message from your future self: Thank you for your focus now, which gives us a higher starting point." },
+                { zh: "每一次的积累，都是一次“git commit”，你的版本库正日益丰富。", en: "Every bit of accumulation is a 'git commit'. Your repository is getting richer every day." },
+                { zh: "保持好奇，无论是对代码还是对世界，它都是你最强大的驱动力。", en: "Stay curious, whether about code or the world. It is your most powerful driving force." },
+                { zh: "现在是为你的“操作系统”安装核心组件的时刻，这决定了未来的上限。", en: "Now is the time to install the core components for your 'operating system'. This determines the upper limit of the future." },
+                { zh: "优秀的架构师，懂得在不同阶段做最重要的事情。你现在做得很好。", en: "An excellent architect knows to do the most important things at different stages. You are doing great right now." },
+                { zh: "暂时放下键盘，是为了拿起笔，描绘更宏大的蓝图。", en: "Putting down the keyboard for now is to pick up a pen and draw a grander blueprint." },
+                { zh: "你的知识树正在剪枝，以便长出更丰硕的果实。", en: "Your knowledge tree is being pruned to bear more abundant fruit." },
+                { zh: "调试生活中的“bug”，和调试代码一样，需要耐心和智慧。", en: "Debugging 'bugs' in life, just like debugging code, requires patience and wisdom." },
+                { zh: "专注当下，就是最优的时间复杂度。", en: "Focusing on the present is the optimal time complexity." },
+                { zh: "每一次的进步，都是你个人“版本号”的一次跃升。", en: "Every progress you make is a version leap for your personal 'release'." },
+                { zh: "服务器可以休眠，但你的梦想从不掉线。", en: "Servers can sleep, but your dream is never offline." },
+                { zh: "学好基础学科，你才能设计出更优雅的“顶层应用”。", en: "Mastering basic subjects allows you to design more elegant 'top-level applications'." },
+                { zh: "这是一次战略性的“重构”，而不是一次偶然的“宕机”。", en: "This is a strategic 'refactoring', not an accidental 'downtime'." },
+                { zh: "未来的技术浪潮，等待着你这样基础扎实的冲浪者。", en: "The future tech waves are waiting for solid surfers like you." },
+                { zh: "你正在为自己的人生编译一个无懈可击的“内核”。", en: "You are compiling an impeccable 'kernel' for your own life." },
+                { zh: "暂时的静默，是为了未来更响亮的发声。", en: "The temporary silence is for a louder voice in the future." },
+                { zh: "像优化代码一样，优化你的学习方法，效率会更高。", en: "Optimize your learning methods like you optimize code, and you will be more efficient." },
+                { zh: "每一次的坚持，都是在为你的未来“部署”更多可能性。", en: "Every act of persistence is 'deploying' more possibilities for your future." },
+                { zh: "书本里的知识，是构建未来虚拟世界的“源代码”。", en: "The knowledge in books is the 'source code' for building future virtual worlds." },
+                { zh: "你正在学习的，是比任何编程语言都更底层的“世界运行逻辑”。", en: "What you are learning is the 'world's operating logic', which is more fundamental than any programming language." },
+                { zh: "保持你的热情，它会在你需要的时候，重新点燃你的IDE。", en: "Keep your passion. It will reignite your IDE when you need it." },
+                { zh: "现在，你的任务是构建最强大的“本地主机”——你自己。", en: "Right now, your task is to build the most powerful 'localhost'—yourself." },
+                { zh: "每一次的思考，都是在训练你的“中央处理器”。", en: "Every thought is training your 'central processing unit'." },
+                { zh: "学业的挑战，是最高权限的“sudo”命令，它将赋予你更多能力。", en: "The challenge of academics is the highest-privilege 'sudo' command; it will grant you more abilities." }
+            ];
+
+            // --- 元素获取 ---
+            const langSwitcher = document.getElementById('lang-switcher');
+            const themeSwitcher = document.getElementById('theme-switcher');
+            const docElement = document.documentElement;
+            const lightIcon = document.getElementById('theme-icon-light');
+            const darkIcon = document.getElementById('theme-icon-dark');
+            const quoteButton = document.getElementById('quote-button');
+            const quoteOutput = document.getElementById('quote-output');
+            const needsInnerHTML = ['greeting', 'online_desc', 'future_desc'];
+
+            let currentLang = 'zh';
+            let lastQuoteIndex = -1;
+
+            // --- 语言切换逻辑 ---
+            function updateLanguage(lang) {
+                currentLang = lang;
+                document.querySelectorAll('[data-lang-key]').forEach(el => {
+                    const key = el.dataset.langKey;
+                    if (langData[lang] && langData[lang][key]) {
+                        if (needsInnerHTML.includes(key)) {
+                            el.innerHTML = langData[lang][key];
+                        } else {
+                            el.textContent = langData[lang][key];
+                        }
+                    }
+                });
+                document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+                langSwitcher.textContent = langData[lang].lang_switcher_text;
+                langSwitcher.title = lang === 'zh' ? 'Switch to English' : '切换到中文';
+            }
+
+            langSwitcher.addEventListener('click', () => {
+                const newLang = currentLang === 'zh' ? 'en' : 'zh';
+                localStorage.setItem('lang', newLang);
+                updateLanguage(newLang);
+            });
+
+            // --- 主题切换逻辑 ---
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    docElement.classList.add('dark');
+                    lightIcon.style.display = 'block';
+                    darkIcon.style.display = 'none';
+                } else {
+                    docElement.classList.remove('dark');
+                    lightIcon.style.display = 'none';
+                    darkIcon.style.display = 'block';
+                }
+            }
+
+            themeSwitcher.addEventListener('click', () => {
+                const currentTheme = docElement.classList.contains('dark') ? 'light' : 'dark';
+                localStorage.setItem('theme', currentTheme);
+                applyTheme(currentTheme);
+            });
+
+            // --- 随机语录逻辑 ---
+            function displayRandomQuote() {
+                let randomIndex;
+                // 确保不会连续两次抽到同一个
+                do {
+                    randomIndex = Math.floor(Math.random() * quotes.length);
+                } while (randomIndex === lastQuoteIndex);
+                
+                lastQuoteIndex = randomIndex;
+                const quote = quotes[randomIndex];
+                quoteOutput.textContent = `“${quote[currentLang]}”`;
+            }
+            quoteButton.addEventListener('click', displayRandomQuote);
+
+            // --- 初始化 ---
+            // 1. 设置主题 (默认暗色)
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+
+            // 2. 设置语言 (自动检测)
+            let savedLang = localStorage.getItem('lang');
+            if (!savedLang) {
+                savedLang = navigator.language.startsWith('zh') ? 'zh' : 'en';
+            }
+            updateLanguage(savedLang);
+
+            // 3. 显示第一条随机语录
+            displayRandomQuote();
+        });
+    </script>
+</body>
+</html>
