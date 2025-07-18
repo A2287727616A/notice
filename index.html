@@ -1,292 +1,802 @@
-
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang-key="meta_title">服务状态公告</title>
-    <!-- 引入 Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入字体: Inter (英文/数字) 和 霞鹜文楷 (中文) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
+    <title>服务状态公告 | Service Status Announcement</title>
+    <meta name="description" content="由于学业压力，部分服务暂停公告 | Service suspension announcement due to academic pressure">
     
-    <style>
-        /* --- 全局样式定义 --- */
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', 'LXGW WenKai Screen', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            transition: background-color 0.5s ease;
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 字体加载 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css">
+    
+    <!-- 图标库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'LXGW WenKai Screen', 'sans-serif'],
+                        serif: ['LXGW WenKai Screen', 'Inter', 'serif'],
+                    },
+                    colors: {
+                        darkbg: {
+                            950: '#0f1521',
+                            900: '#1e293b', // 更深的背景色
+                            800: '#293548',
+                        },
+                        darkcard: {
+                            900: '#2a3749', // 卡片背景色更深
+                            800: '#34425a',
+                        },
+                        lightbg: {
+                            100: '#f0f5ff', // 亮色模式的背景色
+                            200: '#e6f0ff',
+                        },
+                        lightcard: {
+                            100: '#ffffff',
+                            200: '#f9fafc',
+                        }
+                    },
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(59, 130, 246, 0.3)',
+                        'glow-sm': '0 0 10px rgba(59, 130, 246, 0.2)',
+                        'light-card': '0 10px 30px rgba(0, 0, 0, 0.05), 0 1px 8px rgba(0, 0, 0, 0.03)'
+                    }
+                },
+            },
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer base {
+            html.dark {
+                --card-bg: rgba(42, 55, 73, 0.95);
+                --card-border: rgba(76, 110, 245, 0.2);
+            }
+            
+            html:not(.dark) {
+                --card-bg: rgba(255, 255, 255, 0.95);
+                --card-border: rgba(59, 130, 246, 0.15);
+            }
+            
+            html, body {
+                height: auto;
+                min-height: 100%;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
         }
         
-        /* --- 动态网格背景 --- */
-        .grid-bg {
-            background-color: #f9fafb; /* 亮色背景 */
-            background-image: linear-gradient(rgba(128, 128, 128, 0.2) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(128, 128, 128, 0.2) 1px, transparent 1px);
-            background-size: 2rem 2rem;
-            transition: background-color 0.5s ease;
+        @layer components {
+            .glass-card {
+                @apply bg-white/95 dark:bg-darkcard-900/95 backdrop-blur-lg border border-blue-200/30 dark:border-blue-500/20 rounded-2xl shadow-xl;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            }
+            
+            .light .glass-card {
+                @apply bg-lightcard-100 shadow-light-card border-blue-100;
+            }
+            
+            .dark .glass-card {
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--card-border);
+            }
+            
+            .btn {
+                @apply rounded-full p-2 transition duration-300 flex items-center justify-center;
+            }
+            
+            .btn-icon {
+                @apply rounded-full p-3 transition duration-300 bg-white/90 dark:bg-darkcard-800/90 backdrop-blur-md shadow-md hover:shadow-lg text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/40;
+            }
+            
+            .light .btn-icon {
+                @apply bg-white shadow-light-card hover:bg-blue-50 text-blue-700;
+            }
+            
+            .btn-primary {
+                @apply bg-blue-100 hover:bg-blue-200 dark:bg-blue-800/70 dark:hover:bg-blue-700/80 text-blue-700 dark:text-blue-100 px-3 py-1;
+            }
+            
+            .light .btn-primary {
+                @apply bg-blue-600 hover:bg-blue-700 text-white;
+            }
+            
+            .status-badge {
+                @apply px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1.5;
+            }
+            
+            .status-online {
+                @apply bg-green-100 text-green-800 dark:bg-green-500/30 dark:text-green-200 border border-green-200 dark:border-green-500/30;
+            }
+            
+            .light .status-online {
+                @apply bg-green-500/15 text-green-800 border-green-300;
+            }
+            
+            .status-offline {
+                @apply bg-red-100 text-red-800 dark:bg-red-500/30 dark:text-red-200 border border-red-200 dark:border-red-500/30;
+            }
+            
+            .light .status-offline {
+                @apply bg-red-500/15 text-red-800 border-red-300;
+            }
+            
+            .status-planned {
+                @apply bg-blue-100 text-blue-800 dark:bg-blue-500/30 dark:text-blue-200 border border-blue-200 dark:border-blue-500/30;
+            }
+            
+            .light .status-planned {
+                @apply bg-blue-500/15 text-blue-800 border-blue-300;
+            }
+            
+            .grid-bg {
+                background-size: 40px 40px;
+                background-image: 
+                    linear-gradient(to right, rgba(128, 128, 128, 0.05) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(128, 128, 128, 0.05) 1px, transparent 1px);
+                position: relative;
+                overflow: visible;
+            }
+            
+            .grid-bg::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.03), transparent 70%);
+                pointer-events: none;
+            }
+            
+            .light .grid-bg {
+                background-image: 
+                    linear-gradient(to right, rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+            }
+            
+            .light .grid-bg::before {
+                background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1), transparent 70%);
+            }
+            
+            .dark .grid-bg {
+                background-image: 
+                    linear-gradient(to right, rgba(200, 200, 200, 0.03) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(200, 200, 200, 0.03) 1px, transparent 1px);
+            }
+            
+            .dark .grid-bg::before {
+                background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08), transparent 70%);
+            }
+            
+            .quote-card {
+                @apply p-5 rounded-xl bg-blue-50/70 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-500/30;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .light .quote-card {
+                @apply bg-blue-500/10 border-blue-300;
+            }
+            
+            .quote-card::before {
+                content: '"';
+                position: absolute;
+                top: -15px;
+                left: 10px;
+                font-size: 100px;
+                opacity: 0.1;
+                font-family: serif;
+                color: #3b82f6;
+            }
+            
+            .service-item {
+                @apply flex items-start gap-3 p-3 rounded-lg transition-all duration-300;
+            }
+            
+            .light .service-item:hover {
+                background-color: rgba(59, 130, 246, 0.05);
+            }
+            
+            .dark .service-item:hover {
+                background-color: rgba(59, 130, 246, 0.08);
+            }
+            
+            .page-container {
+                width: 100%;
+                min-height: 100vh;
+                padding: 2rem 1rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .divider {
+                @apply h-px w-full bg-gray-200 dark:bg-gray-700 my-6;
+            }
+            
+            .footer-text {
+                @apply text-sm text-gray-500 dark:text-gray-400;
+            }
+            
+            .light-text-headline {
+                @apply text-gray-900;
+            }
+            
+            .light-text-body {
+                @apply text-gray-800;
+            }
+            
+            .light-text-secondary {
+                @apply text-gray-700;
+            }
         }
-        .dark .grid-bg {
-            background-color: #0c0a09; /* 暗色背景 */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-        }
-
-        /* --- 内容卡片样式 --- */
-        .card {
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-        .dark .card {
-            background-color: rgba(28, 25, 23, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* --- 动画 --- */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in { animation: fadeIn 1s ease-out forwards; }
     </style>
 </head>
 
-<body class="text-gray-800 dark:text-gray-200">
-
-    <!-- 主容器 -->
-    <div class="grid-bg min-h-screen w-full flex items-center justify-center p-4">
-        
-        <!-- 主内容卡片 -->
-        <div class="card w-full max-w-2xl rounded-2xl shadow-xl p-8 md:p-10 animate-fade-in">
+<body class="dark bg-lightbg-100 dark:bg-darkbg-950 text-gray-800 dark:text-gray-100 grid-bg transition-colors duration-300" style="font-family: 'LXGW WenKai Screen', Inter, sans-serif;">
+    <div class="page-container">
+        <div class="max-w-2xl w-full glass-card p-6 md:p-10">
+            <!-- 主标题 -->
+            <div class="text-center">
+                <h1 class="text-3xl md:text-4xl font-bold mb-2 lang-zh bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-500 dark:from-blue-300 dark:to-blue-400">服务状态公告</h1>
+                <h1 class="text-3xl md:text-4xl font-bold mb-2 lang-en hidden bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-500 dark:from-blue-300 dark:to-blue-400">Service Status Announcement</h1>
+                <div class="h-1 w-24 bg-gradient-to-r from-blue-600 to-blue-400 dark:from-blue-400 dark:to-blue-300 mx-auto mb-6 rounded-full shadow-glow-sm"></div>
+            </div>
             
-            <header class="text-center mb-8">
-                <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white" data-lang-key="main_title">服务状态公告</h1>
-                <p class="mt-2 text-gray-500 dark:text-gray-400" data-lang-key="subtitle">一个关于未来的简短说明</p>
-            </header>
+            <!-- 核心信息 -->
+            <div class="mb-8">
+                <h2 class="text-xl md:text-2xl font-semibold mb-4 lang-zh text-gray-900 light-text-headline dark:text-gray-50">亲爱的访客：</h2>
+                <h2 class="text-xl md:text-2xl font-semibold mb-4 lang-en hidden text-gray-900 light-text-headline dark:text-gray-50">Dear Visitor:</h2>
+                
+                <p class="mb-4 lang-zh text-gray-800 light-text-body dark:text-gray-200 leading-relaxed">
+                    我是一名2025届中考生，已顺利升入金州高级中学。因学业压力增大，我决定暂停部分个人项目，以便专注于学习。
+                </p>
+                <p class="mb-4 lang-en hidden text-gray-800 light-text-body dark:text-gray-200 leading-relaxed">
+                    I am a middle school student graduating in 2025, about to enter Jinzhou Senior High School. Due to increasing academic pressure, I have decided to suspend some personal projects to focus on my studies.
+                </p>
+            </div>
             
-            <main class="space-y-6">
-                <!-- 核心信息 -->
-                <div class="text-center text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    <p data-lang-key="greeting">你好，朋友！作为一名<strong>2025届</strong>中考生，我已顺利升入<strong>金州高级中学</strong>。面对远超以往的学业压力，我将全身心投入学习，个人项目状态更新如下：</p>
-                </div>
-
-                <!-- 服务状态分区 -->
-                <div class="space-y-4 pt-4">
-                    <div class="flex items-start space-x-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800/50 p-4 rounded-lg">
-                        <svg class="h-6 w-6 text-green-500 flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <!-- 服务状态 -->
+            <div class="mb-10">
+                <h3 class="text-lg md:text-xl font-semibold mb-4 lang-zh text-gray-900 light-text-headline dark:text-gray-50">服务状态</h3>
+                <h3 class="text-lg md:text-xl font-semibold mb-4 lang-en hidden text-gray-900 light-text-headline dark:text-gray-50">Service Status</h3>
+                
+                <div class="space-y-3">
+                    <!-- 在线服务 -->
+                    <div class="service-item">
+                        <div class="status-badge status-online">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span class="lang-zh">在线</span>
+                            <span class="lang-en hidden">Online</span>
+                        </div>
                         <div>
-                            <h3 class="font-bold text-lg text-green-800 dark:text-green-200" data-lang-key="online_title">持续在线</h3>
-                            <p class="text-green-700 dark:text-green-300" data-lang-key="online_desc"><strong>GitHub 加速</strong>服务将通过 <strong>Cloudflare Workers</strong> 实现并继续提供，感谢你的使用。</p>
+                            <p class="font-medium mb-1 text-gray-900 light-text-headline dark:text-gray-50 lang-zh">GitHub 加速服务</p>
+                            <p class="font-medium mb-1 text-gray-900 light-text-headline dark:text-gray-50 lang-en hidden">GitHub Acceleration Service</p>
+                            <p class="text-sm text-gray-700 light-text-secondary dark:text-gray-300 lang-zh">通过 Cloudflare Workers 提供的服务将继续运行</p>
+                            <p class="text-sm text-gray-700 light-text-secondary dark:text-gray-300 lang-en hidden">Service provided through Cloudflare Workers will continue to operate</p>
                         </div>
                     </div>
-                    <div class="flex items-start space-x-4 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800/50 p-4 rounded-lg">
-                        <svg class="h-6 w-6 text-amber-500 flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                    
+                    <!-- 暂停服务 -->
+                    <div class="service-item">
+                        <div class="status-badge status-offline">
+                            <i class="bi bi-x-circle-fill"></i>
+                            <span class="lang-zh">暂停</span>
+                            <span class="lang-en hidden">Suspended</span>
+                        </div>
                         <div>
-                            <h3 class="font-bold text-lg text-amber-800 dark:text-amber-200" data-lang-key="dormant_title">暂时休眠</h3>
-                            <p class="text-amber-700 dark:text-amber-300" data-lang-key="dormant_desc">个人博客、图床及其他项目将暂停访问，期待未来再会。</p>
+                            <p class="font-medium mb-1 text-gray-900 light-text-headline dark:text-gray-50 lang-zh">个人博客与图床</p>
+                            <p class="font-medium mb-1 text-gray-900 light-text-headline dark:text-gray-50 lang-en hidden">Personal Blog & Image Hosting</p>
+                            <p class="text-sm text-gray-700 light-text-secondary dark:text-gray-300 lang-zh">这些服务将暂时休眠，恢复时间待定</p>
+                            <p class="text-sm text-gray-700 light-text-secondary dark:text-gray-300 lang-en hidden">These services will be temporarily hibernated, resume time TBD</p>
                         </div>
                     </div>
-                    <div class="flex items-start space-x-4 bg-sky-50 dark:bg-sky-900/30 border border-sky-200 dark:border-sky-800/50 p-4 rounded-lg">
-                        <svg class="h-6 w-6 text-sky-500 flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v1.5M12 9.75v6.5M12 21.75c-5.385 0-9.75-4.365-9.75-9.75S6.615 2.25 12 2.25s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z" /></svg>
+                    
+                    <!-- 计划中 -->
+                    <div class="service-item">
+                        <div class="status-badge status-planned">
+                            <i class="bi bi-clock-fill"></i>
+                            <span class="lang-zh">计划中</span>
+                            <span class="lang-en hidden">Planned</span>
+                        </div>
                         <div>
-                            <h3 class="font-bold text-lg text-sky-800 dark:text-sky-200" data-lang-key="future_title">未来计划</h3>
-                            <p class="text-sky-700 dark:text-sky-300" data-lang-key="future_desc"><strong>Docker 加速</strong>已加入愿望清单，待时机成熟后，或将重启。</p>
+                            <p class="font-medium mb-1 text-gray-900 light-text-headline dark:text-gray-50 lang-zh">Docker 加速服务</p>
+                            <p class="font-medium mb-1 text-gray-900 light-text-headline dark:text-gray-50 lang-en hidden">Docker Acceleration Service</p>
+                            <p class="text-sm text-gray-700 light-text-secondary dark:text-gray-300 lang-zh">这是未来可能会开发的一个服务</p>
+                            <p class="text-sm text-gray-700 light-text-secondary dark:text-gray-300 lang-en hidden">This is a service that may be developed in the future</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- 随机语录功能区 -->
-                <div class="pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4" data-lang-key="quote_title">来自未来的勉励</h3>
-                    <blockquote id="quote-output" class="min-h-[3rem] text-indigo-800 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 p-4 rounded-lg italic">...</blockquote>
-                    <button id="quote-button" class="mt-4 px-5 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 transition-colors" data-lang-key="quote_button">换一句</button>
+            </div>
+            
+            <!-- 代理域名信息 -->
+            <div class="mb-10">
+                <h3 class="text-lg md:text-xl font-semibold mb-4 lang-zh text-gray-900 light-text-headline dark:text-gray-50">域名列表</h3>
+                <h3 class="text-lg md:text-xl font-semibold mb-4 lang-en hidden text-gray-900 light-text-headline dark:text-gray-50">Proxy Domains</h3>
+                
+                <!-- 已暂停域名 -->
+                <div class="mb-4 p-4 rounded-lg bg-gray-50/70 dark:bg-gray-800/30 border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="status-badge status-offline px-2 py-0.5">
+                            <i class="bi bi-x-circle-fill"></i>
+                            <span class="lang-zh">已暂停</span>
+                            <span class="lang-en hidden">Suspended</span>
+                        </div>
+                        <h4 class="font-medium text-gray-900 light-text-headline dark:text-gray-100 lang-zh">暂停服务域名</h4>
+                        <h4 class="font-medium text-gray-900 light-text-headline dark:text-gray-100 lang-en hidden">Suspended Domains</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2 ml-1">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono">*.class3.fun</span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono">*.memory-echoes.cn</span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono">*.teach-english.tech</span>
+                    </div>
                 </div>
-            </main>
-
-            <footer class="text-center mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-                <p class="text-sm text-gray-500 dark:text-gray-400" data-lang-key="footer_text">青山不改，绿水长流。如有要事，请联系：</p>
-                <a href="mailto:327527865@qq.com" class="font-semibold text-indigo-500 hover:underline">
-                    327527865@qq.com
-                </a>
-            </footer>
-        </div>
-
-        <!-- 控制器 -->
-        <div class="fixed bottom-5 right-5 flex space-x-2">
-            <button id="lang-switcher" title="Switch Language" class="h-12 w-12 flex items-center justify-center card rounded-full shadow-lg hover:scale-110 active:scale-95 transition-transform duration-200 font-semibold text-gray-800 dark:text-gray-200"></button>
-            <button id="theme-switcher" title="Switch Theme" class="h-12 w-12 flex items-center justify-center card rounded-full shadow-lg hover:scale-110 active:scale-95 transition-transform duration-200">
-                 <svg id="theme-icon-light" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                 <svg id="theme-icon-dark" class="h-6 w-6 text-gray-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
-            </button>
+                
+                <!-- 长期有效域名 -->
+                <div class="p-4 rounded-lg bg-gray-50/70 dark:bg-gray-800/30 border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="status-badge status-online px-2 py-0.5">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span class="lang-zh">有效</span>
+                            <span class="lang-en hidden">Active</span>
+                        </div>
+                        <h4 class="font-medium text-gray-900 light-text-headline dark:text-gray-100 lang-zh">长期有效域名</h4>
+                        <h4 class="font-medium text-gray-900 light-text-headline dark:text-gray-100 lang-en hidden">Active Domains</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2 ml-1">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 font-mono border border-blue-100 dark:border-blue-800">github.proxy.class3.fun</span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 font-mono border border-blue-100 dark:border-blue-800">github.memory-echoes.cn</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 来自未来的勉励 -->
+            <div class="mb-10 quote-card">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold lang-zh text-blue-800 dark:text-blue-200">来自未来的勉励</h3>
+                    <h3 class="text-lg font-semibold lang-en hidden text-blue-800 dark:text-blue-200">Encouragement from the Future</h3>
+                    <button id="newQuoteBtn" class="btn btn-primary">
+                        <i class="bi bi-arrow-repeat mr-1"></i>
+                        <span class="lang-zh">换一句</span>
+                        <span class="lang-en hidden">Next Quote</span>
+                    </button>
+                </div>
+                <div id="quoteContainer" class="relative">
+                    <p id="quoteText" class="italic text-center text-gray-800 dark:text-gray-100 leading-relaxed"></p>
+                </div>
+            </div>
+            
+            <!-- 联系方式 -->
+            <div class="text-center mb-6">
+                <p class="lang-zh text-gray-800 light-text-body dark:text-gray-300">如有问题，请联系我：</p>
+                <p class="lang-en hidden text-gray-800 light-text-body dark:text-gray-300">If you have any questions, please contact me:</p>
+                <a href="mailto:327527865@qq.com" class="text-blue-700 dark:text-blue-300 hover:underline font-medium hover:text-blue-800 dark:hover:text-blue-200 transition-colors duration-300">327527865@qq.com</a>
+            </div>
+            
+            <!-- 分割线 -->
+            <div class="divider"></div>
+            
+            <!-- 页脚更新时间 -->
+            <div class="text-center">
+                <p class="footer-text lang-zh text-gray-600 dark:text-gray-400">
+                    <i class="bi bi-calendar3 mr-1"></i> 状态更新时间：2025年7月18日
+                </p>
+                <p class="footer-text lang-en hidden text-gray-600 dark:text-gray-400">
+                    <i class="bi bi-calendar3 mr-1"></i> Status Updated: July 18, 2025
+                </p>
+            </div>
         </div>
     </div>
-
+    
+    <!-- 底部浮动按钮组 -->
+    <div class="fixed bottom-6 right-6 flex flex-col gap-3 z-10">
+        <!-- 主题切换按钮 -->
+        <button id="themeToggle" class="btn-icon shadow-lg dark:shadow-glow-sm">
+            <i class="bi bi-moon-fill dark:hidden"></i>
+            <i class="bi bi-sun-fill hidden dark:block"></i>
+        </button>
+        
+        <!-- 语言切换按钮 -->
+        <button id="langToggle" class="btn-icon shadow-lg dark:shadow-glow-sm">
+            <span class="lang-zh">EN</span>
+            <span class="lang-en hidden">中</span>
+        </button>
+    </div>
+    
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- 数据定义 ---
-            const langData = {
-                zh: {
-                    meta_title: "服务状态公告", main_title: "服务状态公告", subtitle: "一个关于未来的简短说明",
-                    greeting: "你好，朋友！作为一名<strong>2025届</strong>中考生，我已顺利升入<strong>金州高级中学</strong>。面对远超以往的学业压力，我将全身心投入学习，个人项目状态更新如下：",
-                    online_title: "持续在线", online_desc: "<strong>GitHub 加速</strong>服务将通过 <strong>Cloudflare Workers</strong> 实现并继续提供，感谢你的使用。",
-                    dormant_title: "暂时休眠", dormant_desc: "个人博客、图床及其他项目将暂停访问，期待未来再会。",
-                    future_title: "未来计划", future_desc: "<strong>Docker 加速</strong>已加入愿望清单，待时机成熟后，或将重启。",
-                    quote_title: "来自未来的勉励", quote_button: "换一句",
-                    footer_text: "青山不改，绿水长流。如有要事，请联系：", lang_switcher_text: "EN"
-                },
-                en: {
-                    meta_title: "Service Status Announcement", main_title: "Service Status Announcement", subtitle: "A brief note about the future",
-                    greeting: "Hello, friends! As a member of the <strong>Class of 2025</strong>, I have been admitted to <strong>Jinzhou Senior High School</strong>. Facing unprecedented academic pressure, I will be dedicating myself to my studies. Here is an update on my personal projects:",
-                    online_title: "Remains Online", online_desc: "The <strong>GitHub Acceleration</strong> service, powered by <strong>Cloudflare Workers</strong>, will continue to be available. Thank you for using it.",
-                    dormant_title: "Temporarily Dormant", dormant_desc: "My personal blog, image hosting, and other projects will be suspended. Hope to see you again in the future.",
-                    future_title: "Future Plans", future_desc: "<strong>Docker Acceleration</strong> has been added to the wishlist and may be revived when time permits.",
-                    quote_title: "A Message From The Future", quote_button: "Another One",
-                    footer_text: "The journey continues. For important matters, please contact:", lang_switcher_text: "中"
-                }
-            };
-
-            const quotes = [
-                { zh: "坐标锁定：未来。你现在的每一次专注，都在为更高维度的代码库贡献提交。", en: "Coordinates locked: The Future. Every moment of focus now is a commit to a higher-dimensional codebase." },
-                { zh: "知识正在编译，耐心等待。未来的你，感谢现在全力以赴的自己。", en: "Knowledge is compiling, please wait. Your future self thanks you for the dedication today." },
-                { zh: "暂停不是停止，是为下一次启动加载更强劲的内核。", en: "A pause isn't a stop; it's loading a more powerful kernel for the next boot-up." },
-                { zh: "每一次埋首于书本，都是在为未来的技术梦想积蓄能量。", en: "Every time you bury your head in a book, you're accumulating energy for future tech dreams." },
-                { zh: "算法的优雅，源于逻辑的严谨。学业的精进，亦是同理。", en: "The elegance of an algorithm comes from rigorous logic. The same applies to academic progress." },
-                { zh: "暂时离开IDE，是为了在更广阔的世界里寻找下一个伟大项目的灵感。", en: "Leaving the IDE for a while is to find inspiration for the next great project in a wider world." },
-                { zh: "数据结构支撑着程序，而基础知识支撑着你的未来。", en: "Data structures support programs, and fundamental knowledge supports your future." },
-                { zh: "别担心，你的技术栈只是暂时存档，读档时会更加强大。", en: "Don't worry, your tech stack is just temporarily archived. It will be even stronger when you load it again." },
-                { zh: "人生的堆栈里，每一次push都是为了更高处的pop。", en: "In the stack of life, every push is for a higher pop." },
-                { zh: "将思维超频，投入到新的挑战里，你会解锁新的成就。", en: "Overclock your thinking for new challenges, and you will unlock new achievements." },
-                { zh: "物理定律和代码规则一样，理解它们，你就能创造奇迹。", en: "The laws of physics are like coding rules. Understand them, and you can create miracles." },
-                { zh: "化学反应的奇妙，不亚于一行代码改变世界。", en: "The magic of a chemical reaction is no less than a line of code changing the world." },
-                { zh: "生物的演化，是地球最精妙的迭代开发。", en: "The evolution of life is the Earth's most sophisticated iterative development." },
-                { zh: "每一次解开数学难题，都是一次思维的“极限编程”。", en: "Every time you solve a difficult math problem, it's a 'pair programming' for your mind." },
-                { zh: "现在你学的每一课，都是未来你改变世界的API文档。", en: "Every lesson you learn now is the API documentation for you to change the world in the future." },
-                { zh: "暂时关闭端口，是为了防止不必要的干扰，专注核心进程。", en: "Temporarily closing ports is to prevent unnecessary interruptions and focus on core processes." },
-                { zh: "你的大脑正在进行一次底层重构，未来的性能将超乎想象。", en: "Your brain is undergoing a low-level refactoring. Future performance will be beyond imagination." },
-                { zh: "别忘了，最优秀的代码，也需要最稳定的硬件来运行。保重身体。", en: "Remember, even the best code needs the most stable hardware to run. Take care of yourself." },
-                { zh: "高中的“Hello, World!”，是通往更广阔宇宙的起点。", en: "The 'Hello, World!' of high school is the starting point to a wider universe." },
-                { zh: "每一次考试，都是对你当前“版本”的一次压力测试。", en: "Every exam is a stress test for your current 'version'." },
-                { zh: "技术的热情是火种，学业的精进是燃料，未来可期。", en: "Passion for technology is the kindling, academic excellence is the fuel. The future is promising." },
-                { zh: "你不是在放弃爱好，你是在为你的爱好打造一个更坚实的平台。", en: "You are not giving up your hobby; you are building a more solid platform for it." },
-                { zh: "那些深夜里的代码，将化为笔下的星光，照亮你的试卷。", en: "The code from late nights will turn into starlight on your pen, illuminating your exam papers." },
-                { zh: "系统升级中，请勿断电。未来的你，需要这次完整的更新。", en: "System upgrade in progress, do not power off. Your future self needs this complete update." },
-                { zh: "从命令行到方程式，你只是切换了一个同样迷人的问题解决界面。", en: "From command line to equations, you've just switched to an equally fascinating problem-solving interface." },
-                { zh: "未来的你发来消息：感谢你现在的专注，让我们的起点更高。", en: "A message from your future self: Thank you for your focus now, which gives us a higher starting point." },
-                { zh: "每一次的积累，都是一次“git commit”，你的版本库正日益丰富。", en: "Every bit of accumulation is a 'git commit'. Your repository is getting richer every day." },
-                { zh: "保持好奇，无论是对代码还是对世界，它都是你最强大的驱动力。", en: "Stay curious, whether about code or the world. It is your most powerful driving force." },
-                { zh: "现在是为你的“操作系统”安装核心组件的时刻，这决定了未来的上限。", en: "Now is the time to install the core components for your 'operating system'. This determines the upper limit of the future." },
-                { zh: "优秀的架构师，懂得在不同阶段做最重要的事情。你现在做得很好。", en: "An excellent architect knows to do the most important things at different stages. You are doing great right now." },
-                { zh: "暂时放下键盘，是为了拿起笔，描绘更宏大的蓝图。", en: "Putting down the keyboard for now is to pick up a pen and draw a grander blueprint." },
-                { zh: "你的知识树正在剪枝，以便长出更丰硕的果实。", en: "Your knowledge tree is being pruned to bear more abundant fruit." },
-                { zh: "调试生活中的“bug”，和调试代码一样，需要耐心和智慧。", en: "Debugging 'bugs' in life, just like debugging code, requires patience and wisdom." },
-                { zh: "专注当下，就是最优的时间复杂度。", en: "Focusing on the present is the optimal time complexity." },
-                { zh: "每一次的进步，都是你个人“版本号”的一次跃升。", en: "Every progress you make is a version leap for your personal 'release'." },
-                { zh: "服务器可以休眠，但你的梦想从不掉线。", en: "Servers can sleep, but your dream is never offline." },
-                { zh: "学好基础学科，你才能设计出更优雅的“顶层应用”。", en: "Mastering basic subjects allows you to design more elegant 'top-level applications'." },
-                { zh: "这是一次战略性的“重构”，而不是一次偶然的“宕机”。", en: "This is a strategic 'refactoring', not an accidental 'downtime'." },
-                { zh: "未来的技术浪潮，等待着你这样基础扎实的冲浪者。", en: "The future tech waves are waiting for solid surfers like you." },
-                { zh: "你正在为自己的人生编译一个无懈可击的“内核”。", en: "You are compiling an impeccable 'kernel' for your own life." },
-                { zh: "暂时的静默，是为了未来更响亮的发声。", en: "The temporary silence is for a louder voice in the future." },
-                { zh: "像优化代码一样，优化你的学习方法，效率会更高。", en: "Optimize your learning methods like you optimize code, and you will be more efficient." },
-                { zh: "每一次的坚持，都是在为你的未来“部署”更多可能性。", en: "Every act of persistence is 'deploying' more possibilities for your future." },
-                { zh: "书本里的知识，是构建未来虚拟世界的“源代码”。", en: "The knowledge in books is the 'source code' for building future virtual worlds." },
-                { zh: "你正在学习的，是比任何编程语言都更底层的“世界运行逻辑”。", en: "What you are learning is the 'world's operating logic', which is more fundamental than any programming language." },
-                { zh: "保持你的热情，它会在你需要的时候，重新点燃你的IDE。", en: "Keep your passion. It will reignite your IDE when you need it." },
-                { zh: "现在，你的任务是构建最强大的“本地主机”——你自己。", en: "Right now, your task is to build the most powerful 'localhost'—yourself." },
-                { zh: "每一次的思考，都是在训练你的“中央处理器”。", en: "Every thought is training your 'central processing unit'." },
-                { zh: "学业的挑战，是最高权限的“sudo”命令，它将赋予你更多能力。", en: "The challenge of academics is the highest-privilege 'sudo' command; it will grant you more abilities." }
-            ];
-
-            // --- 元素获取 ---
-            const langSwitcher = document.getElementById('lang-switcher');
-            const themeSwitcher = document.getElementById('theme-switcher');
-            const docElement = document.documentElement;
-            const lightIcon = document.getElementById('theme-icon-light');
-            const darkIcon = document.getElementById('theme-icon-dark');
-            const quoteButton = document.getElementById('quote-button');
-            const quoteOutput = document.getElementById('quote-output');
-            const needsInnerHTML = ['greeting', 'online_desc', 'future_desc'];
-
-            let currentLang = 'zh';
-            let lastQuoteIndex = -1;
-
-            // --- 语言切换逻辑 ---
-            function updateLanguage(lang) {
-                currentLang = lang;
-                document.querySelectorAll('[data-lang-key]').forEach(el => {
-                    const key = el.dataset.langKey;
-                    if (langData[lang] && langData[lang][key]) {
-                        if (needsInnerHTML.includes(key)) {
-                            el.innerHTML = langData[lang][key];
-                        } else {
-                            el.textContent = langData[lang][key];
-                        }
-                    }
-                });
-                document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-                langSwitcher.textContent = langData[lang].lang_switcher_text;
-                langSwitcher.title = lang === 'zh' ? 'Switch to English' : '切换到中文';
+        // 语录数据
+        const quotes = [
+            {
+                zh: "今日的努力，铸就明日的辉煌。",
+                en: "Today's efforts forge tomorrow's brilliance."
+            },
+            {
+                zh: "知识如海洋，探索永无止境。",
+                en: "Knowledge is an ocean, exploration never ends."
+            },
+            {
+                zh: "在数字时代，保持学习的渴望是最强大的技能。",
+                en: "In the digital age, maintaining a thirst for learning is the most powerful skill."
+            },
+            {
+                zh: "每一次失败都是成功路上的一个路标。",
+                en: "Every failure is a signpost on the road to success."
+            },
+            {
+                zh: "科技改变世界，人文塑造灵魂。",
+                en: "Technology changes the world, humanities shape the soul."
+            },
+            {
+                zh: "编写代码是一门艺术，解决问题是其终极目标。",
+                en: "Coding is an art, solving problems is its ultimate goal."
+            },
+            {
+                zh: "今天的挑战是明天成就的基石。",
+                en: "Today's challenges are the foundation of tomorrow's achievements."
+            },
+            {
+                zh: "在数据的海洋中，智慧是最好的指南针。",
+                en: "In the ocean of data, wisdom is the best compass."
+            },
+            {
+                zh: "简约之美在于复杂之中寻找秩序。",
+                en: "The beauty of simplicity lies in finding order within complexity."
+            },
+            {
+                zh: "知识是智慧的种子，行动是成长的阳光。",
+                en: "Knowledge is the seed of wisdom, action is the sunlight for growth."
+            },
+            {
+                zh: "创新不是模仿，而是超越现有思维的边界。",
+                en: "Innovation is not imitation, but transcending the boundaries of existing thinking."
+            },
+            {
+                zh: "学会倾听，智慧常在意料之外的声音里。",
+                en: "Learn to listen, wisdom often lies in unexpected voices."
+            },
+            {
+                zh: "科技连接世界，人文连接心灵。",
+                en: "Technology connects the world, humanities connect hearts."
+            },
+            {
+                zh: "每一段代码都讲述着解决问题的故事。",
+                en: "Every piece of code tells a story of problem-solving."
+            },
+            {
+                zh: "持续的小进步，累积成巨大的飞跃。",
+                en: "Consistent small progress accumulates into huge leaps."
+            },
+            {
+                zh: "好奇心是最伟大的老师，问题是最好的课本。",
+                en: "Curiosity is the greatest teacher, questions are the best textbooks."
+            },
+            {
+                zh: "将复杂问题分解为简单步骤，是解决之道。",
+                en: "Breaking complex problems into simple steps is the path to solutions."
+            },
+            {
+                zh: "现在播下的种子，将成为未来的参天大树。",
+                en: "The seeds sown now will become towering trees in the future."
+            },
+            {
+                zh: "数据告诉我们发生了什么，智慧告诉我们为什么。",
+                en: "Data tells us what happened, wisdom tells us why."
+            },
+            {
+                zh: "真正的成功不是超越他人，而是超越昨天的自己。",
+                en: "Real success is not surpassing others, but surpassing your yesterday self."
+            },
+            {
+                zh: "创新始于质疑，成于坚持。",
+                en: "Innovation begins with questioning and succeeds with persistence."
+            },
+            {
+                zh: "学习的过程就像编写代码，调试也是进步的一部分。",
+                en: "The learning process is like coding; debugging is also part of progress."
+            },
+            {
+                zh: "拥抱变化，因为它是进步的唯一常量。",
+                en: "Embrace change, as it's the only constant in progress."
+            },
+            {
+                zh: "算法优化代码，毅力优化人生。",
+                en: "Algorithms optimize code, perseverance optimizes life."
+            },
+            {
+                zh: "知识的边界不断扩展，但永远不会到达终点。",
+                en: "The boundaries of knowledge continually expand but never reach an endpoint."
+            },
+            {
+                zh: "细节决定成败，专注铸就卓越。",
+                en: "Details determine success or failure; focus creates excellence."
+            },
+            {
+                zh: "用数据说话，用智慧决策，用行动证明。",
+                en: "Speak with data, decide with wisdom, prove with action."
+            },
+            {
+                zh: "在数字化的海洋中，创造力是最珍贵的珍珠。",
+                en: "In the digital ocean, creativity is the most precious pearl."
+            },
+            {
+                zh: "困难只是暂时的，坚持才是永恒的力量。",
+                en: "Difficulties are temporary; persistence is an eternal power."
+            },
+            {
+                zh: "智慧不在于知道所有答案，而在于提出正确的问题。",
+                en: "Wisdom lies not in knowing all answers, but in asking the right questions."
+            },
+            {
+                zh: "今天的辛勤耕耘，是为了明天的丰硕收获。",
+                en: "Today's hard work is for tomorrow's abundant harvest."
+            },
+            {
+                zh: "最伟大的发现始于最简单的好奇心。",
+                en: "The greatest discoveries begin with the simplest curiosity."
+            },
+            {
+                zh: "学习是一场马拉松，而非短跑。",
+                en: "Learning is a marathon, not a sprint."
+            },
+            {
+                zh: "每一行代码都是思考的结晶，每一次调试都是智慧的磨练。",
+                en: "Every line of code is the crystallization of thought; every debugging is the refinement of wisdom."
+            },
+            {
+                zh: "技术如流水，不断前进；智慧如磐石，历久弥新。",
+                en: "Technology flows like water, constantly advancing; wisdom stands like a rock, enduring through time."
+            },
+            {
+                zh: "思考是人类最伟大的能力，行动是思考最完美的表达。",
+                en: "Thinking is humanity's greatest ability; action is the perfect expression of thought."
+            },
+            {
+                zh: "没有失败，只有暂时未成功的尝试。",
+                en: "There is no failure, only temporarily unsuccessful attempts."
+            },
+            {
+                zh: "创新是打破常规思维的勇气，加上不懈的探索精神。",
+                en: "Innovation is the courage to break conventional thinking, plus a spirit of relentless exploration."
+            },
+            {
+                zh: "在知识的海洋中，谦卑是最好的导航。",
+                en: "In the ocean of knowledge, humility is the best navigation."
+            },
+            {
+                zh: "未来属于那些今天就为之奋斗的人。",
+                en: "The future belongs to those who fight for it today."
+            },
+            {
+                zh: "理论指引方向，实践铸就真知。",
+                en: "Theory guides direction; practice forges true knowledge."
+            },
+            {
+                zh: "最复杂的系统也是由最简单的组件构建的。",
+                en: "Even the most complex systems are built from the simplest components."
+            },
+            {
+                zh: "数字化时代，终身学习不再是选择，而是必需。",
+                en: "In the digital age, lifelong learning is no longer a choice, but a necessity."
+            },
+            {
+                zh: "每一次克服困难都是一次自我超越。",
+                en: "Every time we overcome difficulties is a time of self-transcendence."
+            },
+            {
+                zh: "科技让世界变得更小，智慧让视野变得更广。",
+                en: "Technology makes the world smaller; wisdom makes the vision broader."
+            },
+            {
+                zh: "知识如星辰，照亮前行的道路；毅力如航船，驶向成功的彼岸。",
+                en: "Knowledge is like stars, illuminating the path forward; perseverance is like a ship, sailing toward the shore of success."
+            },
+            {
+                zh: "在不确定中寻找确定，在变化中把握不变。",
+                en: "Find certainty in uncertainty, grasp constancy in change."
+            },
+            {
+                zh: "学习的最高境界不是获取知识，而是运用知识。",
+                en: "The highest realm of learning is not acquiring knowledge, but applying it."
+            },
+            {
+                zh: "思维的深度决定见识的高度。",
+                en: "The depth of thinking determines the height of insight."
+            },
+            {
+                zh: "数据是过去的记录，智慧是未来的指引。",
+                en: "Data is a record of the past; wisdom is a guide to the future."
+            },
+            {
+                zh: "编程改变世界的方式，学习改变自己的方式。",
+                en: "Programming changes the way the world works; learning changes the way we work."
+            },
+            {
+                zh: "细节决定成败，专注铸就卓越。",
+                en: "Details determine success or failure; focus creates excellence."
             }
-
-            langSwitcher.addEventListener('click', () => {
-                const newLang = currentLang === 'zh' ? 'en' : 'zh';
-                localStorage.setItem('lang', newLang);
-                updateLanguage(newLang);
-            });
-
-            // --- 主题切换逻辑 ---
-            function applyTheme(theme) {
-                if (theme === 'dark') {
-                    docElement.classList.add('dark');
-                    lightIcon.style.display = 'block';
-                    darkIcon.style.display = 'none';
+        ];
+        
+        // DOM 元素
+        const themeToggle = document.getElementById('themeToggle');
+        const langToggle = document.getElementById('langToggle');
+        const newQuoteBtn = document.getElementById('newQuoteBtn');
+        const quoteText = document.getElementById('quoteText');
+        const langZh = document.querySelectorAll('.lang-zh');
+        const langEn = document.querySelectorAll('.lang-en');
+        
+        // 初始化
+        let currentQuoteIndex = -1;
+        let previousQuoteIndex = -1;
+        
+        // 加载用户偏好
+        function loadPreferences() {
+            // 主题偏好 - 默认为暗色模式
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+            } else {
+                // 默认为暗色模式
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark'); // 确保保存到本地
+            }
+            
+            // 语言偏好
+            const savedLang = localStorage.getItem('lang');
+            if (savedLang === 'en') {
+                setLanguage('en');
+            } else if (savedLang === 'zh') {
+                setLanguage('zh');
+            } else {
+                // 根据浏览器语言自动选择
+                const browserLang = navigator.language || navigator.userLanguage;
+                if (browserLang.startsWith('zh')) {
+                    setLanguage('zh');
                 } else {
-                    docElement.classList.remove('dark');
-                    lightIcon.style.display = 'none';
-                    darkIcon.style.display = 'block';
+                    setLanguage('en');
                 }
             }
-
-            themeSwitcher.addEventListener('click', () => {
-                const currentTheme = docElement.classList.contains('dark') ? 'light' : 'dark';
-                localStorage.setItem('theme', currentTheme);
-                applyTheme(currentTheme);
-            });
-
-            // --- 随机语录逻辑 ---
-            function displayRandomQuote() {
-                let randomIndex;
-                // 确保不会连续两次抽到同一个
-                do {
-                    randomIndex = Math.floor(Math.random() * quotes.length);
-                } while (randomIndex === lastQuoteIndex);
-                
-                lastQuoteIndex = randomIndex;
-                const quote = quotes[randomIndex];
-                quoteOutput.textContent = `“${quote[currentLang]}”`;
-            }
-            quoteButton.addEventListener('click', displayRandomQuote);
-
-            // --- 初始化 ---
-            // 1. 设置主题 (默认暗色)
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            applyTheme(savedTheme);
-
-            // 2. 设置语言 (自动检测)
-            let savedLang = localStorage.getItem('lang');
-            if (!savedLang) {
-                savedLang = navigator.language.startsWith('zh') ? 'zh' : 'en';
-            }
-            updateLanguage(savedLang);
-
-            // 3. 显示第一条随机语录
+            
+            // 显示第一条随机语录
             displayRandomQuote();
-        });
+            
+            // 添加页面加载动画效果
+            document.body.classList.add('opacity-100');
+        }
+        
+        // 设置语言
+        function setLanguage(lang) {
+            if (lang === 'zh') {
+                langZh.forEach(el => el.classList.remove('hidden'));
+                langEn.forEach(el => el.classList.add('hidden'));
+                localStorage.setItem('lang', 'zh');
+            } else {
+                langZh.forEach(el => el.classList.add('hidden'));
+                langEn.forEach(el => el.classList.remove('hidden'));
+                localStorage.setItem('lang', 'en');
+            }
+            
+            // 刷新当前语录显示
+            if (currentQuoteIndex >= 0) {
+                const currentLang = lang === 'zh' ? 'zh' : 'en';
+                updateQuote(quotes[currentQuoteIndex][currentLang]);
+            }
+        }
+        
+        // 切换主题
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // 切换语言
+        function toggleLang() {
+            const currentLang = localStorage.getItem('lang') || 'zh';
+            setLanguage(currentLang === 'zh' ? 'en' : 'zh');
+        }
+        
+        // 更新语录显示
+        function updateQuote(text) {
+            quoteText.style.opacity = '0';
+            setTimeout(() => {
+                quoteText.textContent = text;
+                quoteText.style.opacity = '1';
+            }, 300);
+        }
+        
+        // 显示随机语录
+        function displayRandomQuote() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * quotes.length);
+            } while (newIndex === previousQuoteIndex && quotes.length > 1);
+            
+            previousQuoteIndex = currentQuoteIndex;
+            currentQuoteIndex = newIndex;
+            
+            const currentLang = localStorage.getItem('lang') || 'zh';
+            const langKey = currentLang === 'en' ? 'en' : 'zh';
+            
+            updateQuote(quotes[currentQuoteIndex][langKey]);
+        }
+        
+        // 添加样式
+        document.head.insertAdjacentHTML('beforeend', `
+            <style>
+                body {
+                    opacity: 0;
+                    transition: opacity 0.5s ease-in-out;
+                }
+                body.opacity-100 {
+                    opacity: 1;
+                }
+                #quoteText {
+                    transition: opacity 0.3s ease-in-out;
+                }
+                @keyframes buttonPulse {
+                    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); }
+                    70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+                    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+                }
+                .dark #themeToggle:hover, .dark #langToggle:hover {
+                    animation: buttonPulse 2s infinite;
+                }
+                .light #themeToggle:hover, .light #langToggle:hover {
+                    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+                }
+                
+                /* 确保页面可以滑动 */
+                html {
+                    overflow-y: scroll;
+                }
+                body {
+                    min-height: 100vh;
+                    position: relative;
+                }
+                
+                .light body {
+                    background-image: linear-gradient(135deg, #f0f5ff 0%, #e6f0ff 100%);
+                }
+                
+                .footer-text {
+                    font-size: 0.85rem;
+                    opacity: 0.8;
+                }
+                
+                .light .light-text-headline {
+                    font-weight: 600;
+                }
+                
+                .light .light-text-body {
+                    font-weight: 500;
+                }
+            </style>
+        `);
+        
+        // 事件监听
+        themeToggle.addEventListener('click', toggleTheme);
+        langToggle.addEventListener('click', toggleLang);
+        newQuoteBtn.addEventListener('click', displayRandomQuote);
+        
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', loadPreferences);
     </script>
 </body>
-</html>
+</html> 
